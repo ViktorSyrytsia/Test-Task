@@ -1,3 +1,5 @@
+//Here we ask user, how much cells he/she wants in each row, and how this cells will name
+//Then we run tableGenerator func. and pass cellsArray as argument
 document.getElementById('create_table').onclick = () => {
   const cellsArray = ['#'];
   const count = prompt('How many cells, you want to add?', 0);
@@ -9,8 +11,11 @@ document.getElementById('create_table').onclick = () => {
   tableGenerator(cellsArray);
 };
 
+//In this func. we create table and mount it to the root element in out template
+//To create table header we use headerCreator func.
+//In the end of table we add button to add new rows to the table;
+//By clicking on this button you can call modal window, were you can create new row
 function tableGenerator(cellsArray) {
-  //Create base table structure
   const container = document.createElement('div');
 
   const table = document.createElement('table');
@@ -37,8 +42,8 @@ function tableGenerator(cellsArray) {
   document.getElementById('root').appendChild(container);
 }
 
+//This func we use in tableGenerator func. to create table header
 function headerCreator(arr) {
-  //Create table header
   const headerRow = document.createElement('tr');
   arr.forEach((element) => {
     const th = document.createElement('th');
@@ -48,9 +53,8 @@ function headerCreator(arr) {
   });
   return headerRow;
 }
-
+//This func we call to add a new rows to the table
 function addNewRowModal(cellsArray, body) {
-  //Call modal with form to add new row
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.style.display = 'block';
@@ -92,8 +96,8 @@ function addNewRowModal(cellsArray, body) {
   const form = document.createElement('form');
   form.className = 'd-flex flex-column';
   form.name = 'new_row';
+  //Here we create all inputs for our form. Base on our cells which we tap before
   cellsArray.forEach((element, index) => {
-    //Create inputs
     if (index > 0 && element !== '') {
       const label = document.createElement('label');
       label.htmlFor = element;
@@ -116,7 +120,7 @@ function addNewRowModal(cellsArray, body) {
   okButton.innerHTML = 'OK';
   okButton.type = 'button';
   okButton.onclick = () => {
-    //Create new row, base on all inputs
+    //Create new row, base on all inputs, by calling rowCreator func.
     const cells = [body.childElementCount + 1];
     const form = document.forms.new_row;
     for (const iterator of form) {
@@ -144,8 +148,8 @@ function addNewRowModal(cellsArray, body) {
   document.body.appendChild(modal);
 }
 
+//Here we create row with two additional button: edit and delete
 function rowCreator(cells, body) {
-  //Create row function
   const row = document.createElement('tr');
   for (let i = 0; i < cells.length; ++i) {
     row.appendChild(document.createElement('td'));
@@ -170,11 +174,13 @@ function rowCreator(cells, body) {
   body.appendChild(row);
 }
 
+//This func we use on deleteRow button
 function deleteRow(e) {
   const target = e.target.parentNode;
   target.parentNode.remove();
 }
 
+//This func we use on editRow button
 function editRow(e) {
   const target = e.target.parentNode;
   const row = target.parentNode;
