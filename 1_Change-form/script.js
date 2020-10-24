@@ -4,30 +4,41 @@ document.forms.change_form.onsubmit = (e) => {
   const price = +document.getElementById('price').value;
   if (price > sum) {
     alert("You don't have enough money");
+    return null;
   }
   const change = (sum - price).toFixed(2);
   const dollars = change.split('.')[0];
   const cents = change.split('.')[1];
   const centsNominal = nominals(cents);
 
-  const changeOutput = document.getElementById('change');
-  changeOutput.innerHTML = 'Your change is: ';
-  changeOutput.innerHTML += `${
+  const changeHeader = document.getElementById('change');
+  if (changeHeader.children[0]) {
+    changeHeader.children[0].remove();
+  }
+  const changeOutput = document.createElement('span');
+  changeOutput.className = 'font-weight-bolder';
+  changeOutput.innerHTML = `  ${
     change.split('.')[0] <= 0 ? '' : change.split('.')[0] + ' dollars,'
   } ${
     change.split('.')[1] < 10
       ? change.split('.')[1][1] + ' cents'
       : change.split('.')[1] + ' cents'
   }`;
+  changeHeader.appendChild(changeOutput);
 
-  const nominalsOutput = document.getElementById('nominals');
-  nominalsOutput.innerHTML = 'By nominal value: ';
-  nominalsOutput.innerHTML += `${dollars <= 0 ? '' : dollars + ' dollars'}
+  const nominalsHeader = document.getElementById('nominals');
+  if (nominalsHeader.children[0]) {
+    nominalsHeader.children[0].remove();
+  }
+  const nominalsOutput = document.createElement('span');
+  nominalsOutput.className = 'font-weight-bolder';
+  nominalsOutput.innerHTML = `  ${dollars <= 0 ? '' : dollars + ' dollars'}
     ${nominalString(centsNominal, 50)} 
     ${nominalString(centsNominal, 25)} 
     ${nominalString(centsNominal, 10)} 
     ${nominalString(centsNominal, 5)} 
     ${nominalString(centsNominal, 1)}  `;
+  nominalsHeader.appendChild(nominalsOutput);
 
   document.getElementById('sum').value = 0;
   document.getElementById('price').value = 0;

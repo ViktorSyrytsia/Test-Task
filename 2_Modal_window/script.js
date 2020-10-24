@@ -45,11 +45,11 @@ function createModal(position) {
 
   const modalHeader = document.createElement('div');
   const header = document.createElement('h5');
-  const closeButton = document.createElement('button');
-  closeButton.type = 'button';
-  closeButton.className = 'close';
-  closeButton.innerHTML = 'x';
-  closeButton.onclick = () => {
+  const closeCrossButton = document.createElement('button');
+  closeCrossButton.type = 'button';
+  closeCrossButton.className = 'close';
+  closeCrossButton.innerText = 'x';
+  closeCrossButton.onclick = () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
@@ -58,37 +58,42 @@ function createModal(position) {
   header.className = 'modal-title';
   header.innerHTML = 'Modal title';
   modalHeader.appendChild(header);
-  modalHeader.appendChild(closeButton);
+  modalHeader.appendChild(closeCrossButton);
   modalContent.appendChild(modalHeader);
 
   const modalBody = document.createElement('div');
   const text = document.createElement('p');
   modalBody.className = 'modal-body';
-  text.innerHTML = 'Modal body text...';
+  text.innerText = 'Modal body text...';
   modalBody.appendChild(text);
   modalContent.appendChild(modalBody);
 
   const modalFooter = document.createElement('div');
   const okButton = document.createElement('button');
-  const noButton = document.createElement('button');
+  const closeButton = document.createElement('button');
   const closeAllButton = document.createElement('button');
+
   modalFooter.className = 'modal-footer';
+
   okButton.className = 'btn btn-success';
-  okButton.innerHTML = 'OK';
+  okButton.innerText = 'OK';
   okButton.type = 'button';
   okButton.onclick = () => {
-    createModal();
+    alert('Hello world!');
+    modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
+    modal.style.opacity = '0';
+    setTimeout(() => modal.remove(), 300);
   };
-  noButton.className = 'btn btn-danger';
-  noButton.innerHTML = 'Close';
-  noButton.type = 'button';
-  noButton.onclick = () => {
+  closeButton.className = 'btn btn-danger';
+  closeButton.innerText = 'Close';
+  closeButton.type = 'button';
+  closeButton.onclick = () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
   };
   closeAllButton.className = 'btn btn-warning';
-  closeAllButton.innerHTML = 'Close all';
+  closeAllButton.innerText = 'Close all';
   closeAllButton.type = 'button';
   closeAllButton.onclick = () => {
     const allModal = document.querySelectorAll('.modal');
@@ -99,7 +104,7 @@ function createModal(position) {
     }
   };
   modalFooter.appendChild(okButton);
-  modalFooter.appendChild(noButton);
+  modalFooter.appendChild(closeButton);
   modalFooter.appendChild(closeAllButton);
   modalContent.appendChild(modalFooter);
 
