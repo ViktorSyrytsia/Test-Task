@@ -1,14 +1,27 @@
 document.getElementById('create_modal').onclick = () => {
+  createModal();
+};
+
+document.getElementById('create_multi_modal').onclick = () => {
+  const count = prompt('How many windows?', 0);
+};
+
+const createModal = (windowCount) => {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.style.display = 'block';
+  modal.style.opacity = '0';
   modal.style.transition = 'all 0.3s';
   setTimeout(() => {
+    modal.style.opacity = '1';
     modal.style.backgroundColor = 'rgba(25,25,25,0.8)';
-  }, 10);
-  const modalDialog = document.createElement('div');
-  modalDialog.className = 'modal-dialog';
-  modal.appendChild(modalDialog);
+  }, 30);
+  if (windowCount > 1) {
+  } else {
+    const modalDialog = document.createElement('div');
+    modalDialog.className = 'modal-dialog';
+    modal.appendChild(modalDialog);
+  }
 
   const modalContent = document.createElement('div');
   modalContent.className = 'modal-content';
