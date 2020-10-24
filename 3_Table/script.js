@@ -1,4 +1,16 @@
+document.getElementById('create_table').onclick = () => {
+  const cellsArray = ['#'];
+  const count = prompt('How many cells, you want to add?', 0);
+  for (let index = 0; index < count; index++) {
+    cellsArray.push(prompt(`Name of ${index + 1} cell`));
+  }
+  cellsArray.push('');
+  cellsArray.push('');
+  tableGenerator(cellsArray);
+};
+
 function tableGenerator(cellsArray) {
+  //Create base table structure
   const container = document.createElement('div');
 
   const table = document.createElement('table');
@@ -26,6 +38,7 @@ function tableGenerator(cellsArray) {
 }
 
 function headerCreator(arr) {
+  //Create table header
   const headerRow = document.createElement('tr');
   arr.forEach((element) => {
     const th = document.createElement('th');
@@ -37,6 +50,7 @@ function headerCreator(arr) {
 }
 
 function addNewRowModal(cellsArray, body) {
+  //Call modal with form to add new row
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.style.display = 'block';
@@ -79,7 +93,8 @@ function addNewRowModal(cellsArray, body) {
   form.className = 'd-flex flex-column';
   form.name = 'new_row';
   cellsArray.forEach((element, index) => {
-    if (index > 0) {
+    //Create inputs
+    if (index > 0 && element !== '') {
       const label = document.createElement('label');
       label.htmlFor = element;
       label.innerHTML = element.toUpperCase() + ':';
@@ -101,12 +116,18 @@ function addNewRowModal(cellsArray, body) {
   okButton.innerHTML = 'OK';
   okButton.type = 'button';
   okButton.onclick = () => {
-    const cells = ['#'];
+    //Create new row, base on all inputs
+    const cells = [body.childElementCount + 1];
     const form = document.forms.new_row;
     for (const iterator of form) {
       cells.push(iterator.value);
     }
+    cells.push('edit');
+    cells.push('delete');
     rowCreator(cells, body);
+    modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
+    modal.style.opacity = '0';
+    setTimeout(() => modal.remove(), 300);
   };
   noButton.className = 'btn btn-danger';
   noButton.innerHTML = 'NO';
@@ -123,20 +144,47 @@ function addNewRowModal(cellsArray, body) {
   document.body.appendChild(modal);
 }
 
-document.getElementById('create_table').onclick = () => {
-  const cellsArray = ['#'];
-  const count = prompt('How many cells, you want to add?', 0);
-  for (let index = 0; index < count; index++) {
-    cellsArray.push(prompt(`Name of ${index + 1} cell`));
-  }
-  tableGenerator(cellsArray);
-};
-
 function rowCreator(cells, body) {
+  //Create row function
   const row = document.createElement('tr');
   for (let i = 0; i < cells.length; ++i) {
     row.appendChild(document.createElement('td'));
-    row.cells[i].appendChild(document.createTextNode(cells[i]));
+    if (cells[i] === 'edit') {
+      const editButton = document.createElement('button');
+      editButton.innerHTML = 'edit';
+      editButton.onclick = (e) => {
+        editRow(e);
+      };
+      row.cells[i].appendChild(editButton);
+    } else if (cells[i] === 'delete') {
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'delete';
+      deleteButton.onclick = (e) => {
+        deleteRow(e);
+      };
+      row.cells[i].appendChild(deleteButton);
+    } else {
+      row.cells[i].appendChild(document.createTextNode(cells[i]));
+    }
   }
   body.appendChild(row);
+}
+
+function deleteRow(e) {
+  const target = e.target.parentNode;
+  target.parentNode.remove();
+}
+
+function editRow(e) {
+  const target = e.target.parentNode;
+  const row = target.parentNode;
+  const rowCells = row.children;
+  for (const iterator of rowCells) {
+    if (iterator.innerText !== 'edit' && iterator.innerText !== 'delete') {
+      iterator.innerText = prompt(
+        `Put a new value for ${iterator.innerText}`,
+        iterator.innerText
+      );
+    }
+  }
 }
