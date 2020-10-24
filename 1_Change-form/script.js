@@ -1,15 +1,14 @@
 document.forms.change_form.onsubmit = (e) => {
   e.preventDefault();
-  const sum = document.getElementById('sum').value;
-  const price = document.getElementById('price').value;
+  const sum = +document.getElementById('sum').value;
+  const price = +document.getElementById('price').value;
   if (price > sum) {
     alert("You don't have enough money");
   }
   const change = (sum - price).toFixed(2);
+  const dollars = change.split('.')[0];
   const cents = change.split('.')[1];
   const centsNominal = nominals(cents);
-  console.log(centsNominal);
-  const dollars = change.split('.')[0];
 
   const changeOutput = document.getElementById('change');
   changeOutput.innerHTML = 'Your change is: ';
@@ -21,14 +20,14 @@ document.forms.change_form.onsubmit = (e) => {
       : change.split('.')[1] + ' cents'
   }`;
 
-  nominalsOutput = document.getElementById('nominals');
+  const nominalsOutput = document.getElementById('nominals');
   nominalsOutput.innerHTML = 'By nominal value: ';
   nominalsOutput.innerHTML += `${dollars <= 0 ? '' : dollars + ' dollars'}
-    ${centsNominal[50] > 0 ? centsNominal[50] + 'x50cent' : ''} 
-    ${centsNominal[25] > 0 ? centsNominal[25] + 'x25cent' : ''} 
-    ${centsNominal[10] > 0 ? centsNominal[10] + 'x10cent' : ''} 
-    ${centsNominal[5] > 0 ? centsNominal[5] + 'x5cent' : ''} 
-    ${centsNominal[1] > 0 ? centsNominal[1] + 'x1cent' : ''} `;
+    ${nominalString(centsNominal, 50)} 
+    ${nominalString(centsNominal, 25)} 
+    ${nominalString(centsNominal, 10)} 
+    ${nominalString(centsNominal, 5)} 
+    ${nominalString(centsNominal, 1)}  `;
 
   document.getElementById('sum').value = 0;
   document.getElementById('price').value = 0;
@@ -64,4 +63,10 @@ function nominals(cents) {
     }
   }
   return nom;
+}
+
+function nominalString(centsNominal, value) {
+  return `${
+    centsNominal[value] > 0 ? centsNominal[value] + 'x' + value + 'cent' : ''
+  } `;
 }
