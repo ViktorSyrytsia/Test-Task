@@ -1,11 +1,16 @@
 //Here we ask user, how much cells he/she wants in each row, and how this cells will name
 //Then we run tableGenerator func. and pass cellsArray as argument
 document.getElementById('create_table').onclick = () => {
+  //I push # like a firs cell, cos its default cell for every table
   const cellsArray = ['#'];
   const count = prompt('How many cells, you want to add?', 0);
   for (let index = 0; index < count; index++) {
     cellsArray.push(prompt(`Name of ${index + 1} cell`));
   }
+  if (cellsArray.length === 1) {
+    return null;
+  }
+  // I push this two empty value to create addition cells for edit and delete button
   cellsArray.push('');
   cellsArray.push('');
   tableGenerator(cellsArray);
@@ -31,13 +36,20 @@ function tableGenerator(cellsArray) {
   container.appendChild(table);
 
   const addRowButton = document.createElement('button');
-  addRowButton.className = 'btn btn-info';
+  addRowButton.className = 'btn btn-info mt-2 mb-5';
   addRowButton.innerHTML = 'Add new row';
   addRowButton.onclick = () => {
     addNewRowModal(cellsArray, body);
   };
+  const deleteTableButton = document.createElement('button');
+  deleteTableButton.className = 'btn btn-danger mt-2 mb-5 ml-2';
+  deleteTableButton.innerHTML = 'Delete table';
+  deleteTableButton.onclick = () => {
+    container.remove();
+  };
 
   container.appendChild(addRowButton);
+  container.appendChild(deleteTableButton);
 
   document.getElementById('root').appendChild(container);
 }
@@ -96,6 +108,7 @@ function addNewRowModal(cellsArray, body) {
   const form = document.createElement('form');
   form.className = 'd-flex flex-column';
   form.name = 'new_row';
+  form.action = '#';
   //Here we create all inputs for our form. Base on our cells which we tap before
   cellsArray.forEach((element, index) => {
     if (index > 0 && element !== '') {
@@ -105,6 +118,22 @@ function addNewRowModal(cellsArray, body) {
       label.className = 'mt-3';
       const input = document.createElement('input');
       input.id = element;
+      input.minLength = '2';
+      input.maxLength = '25';
+      input.required = true;
+      if (input.id === 'email') {
+        input.type = 'email';
+        input.name = 'email';
+        input.pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$';
+      }
+      if (input.id === 'date') {
+        const date = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+        input.value = date;
+        input.style.display = 'none';
+      }
+      if (label.htmlFor === 'date') {
+        label.style.display = 'none';
+      }
       form.appendChild(label);
       form.appendChild(input);
     }
@@ -116,15 +145,18 @@ function addNewRowModal(cellsArray, body) {
   const okButton = document.createElement('button');
   const noButton = document.createElement('button');
   modalFooter.className = 'modal-footer';
-  okButton.className = 'btn btn-success';
+  okButton.className = 'btn btn-success mt-3';
   okButton.innerHTML = 'OK';
-  okButton.type = 'button';
-  okButton.onclick = () => {
+  okButton.type = 'submit';
+  form.onsubmit = (e) => {
+    e.preventDefault();
     //Create new row, base on all inputs, by calling rowCreator func.
     const cells = [body.childElementCount + 1];
     const form = document.forms.new_row;
     for (const iterator of form) {
-      cells.push(iterator.value);
+      if (iterator.value !== '') {
+        cells.push(iterator.value);
+      }
     }
     cells.push('edit');
     cells.push('delete');
@@ -141,7 +173,7 @@ function addNewRowModal(cellsArray, body) {
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
   };
-  modalFooter.appendChild(okButton);
+  form.appendChild(okButton);
   modalFooter.appendChild(noButton);
   modalContent.appendChild(modalFooter);
 
@@ -156,6 +188,7 @@ function rowCreator(cells, body) {
     if (cells[i] === 'edit') {
       const editButton = document.createElement('button');
       editButton.innerHTML = 'edit';
+      editButton.className = 'btn btn-warning btn-sm';
       editButton.onclick = (e) => {
         editRow(e);
       };
@@ -163,6 +196,7 @@ function rowCreator(cells, body) {
     } else if (cells[i] === 'delete') {
       const deleteButton = document.createElement('button');
       deleteButton.innerHTML = 'delete';
+      deleteButton.className = 'btn btn-danger btn-sm';
       deleteButton.onclick = (e) => {
         deleteRow(e);
       };
