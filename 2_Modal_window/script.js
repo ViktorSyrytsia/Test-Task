@@ -6,7 +6,7 @@ document.getElementById('create_multi_modal').onclick = () => {
   const count = prompt('How many windows?', 0);
 };
 
-const createModal = (windowCount) => {
+const createModal = () => {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.style.display = 'block';
