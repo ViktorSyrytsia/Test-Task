@@ -2,6 +2,16 @@ document.getElementById('add').onclick = (e) => {
   createModal(e.target.innerHTML);
 };
 
+document.getElementById('edit').onclick = (e) => {
+  const rows = document.querySelectorAll('.row-selector');
+  for (const row of rows) {
+    if (row.children[0].checked === true) {
+      console.log(row.children);
+      createModal('Edit');
+    }
+  }
+};
+
 function createModal(title) {
   const modal = document.createElement('div');
   modal.className = 'modal';
@@ -123,6 +133,15 @@ function createModal(title) {
 
 function rowCreator(values) {
   const row = document.createElement('tr');
+  row.className = 'row-selector';
+  const checkbox = document.createElement('input');
+  checkbox.className = 'mt-3 ml-3';
+  checkbox.type = 'checkbox';
+
+  // const selected = document.createElement('td');
+  // selected.appendChild(checkbox);
+
+  row.appendChild(checkbox);
   for (let i = 0; i < values.length; i++) {
     row.appendChild(document.createElement('td'));
     row.cells[i].appendChild(document.createTextNode(values[i]));
