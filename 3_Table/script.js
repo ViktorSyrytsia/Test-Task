@@ -152,7 +152,6 @@ function addNewRowModal(cellsArray, body) {
     e.preventDefault();
     //Create new row, base on all inputs, by calling rowCreator func.
     const cells = [body.childElementCount + 1];
-    const form = document.forms.new_row;
     for (const iterator of form) {
       if (iterator.value !== '') {
         cells.push(iterator.value);
