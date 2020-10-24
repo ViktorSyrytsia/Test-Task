@@ -1,18 +1,21 @@
 document.getElementById('add').onclick = (e) => {
-  createModal(e.target.innerHTML);
+  createModal('Create');
 };
 
 document.getElementById('edit').onclick = (e) => {
   const rows = document.querySelectorAll('.row-selector');
   for (const row of rows) {
     if (row.children[0].checked === true) {
-      console.log(row.children);
-      createModal('Edit');
+      const values = [];
+      for (let index = 1; index < 4; index++) {
+        values.push(row.children[index].innerHTML);
+      }
+      createModal('Edit', values, row);
     }
   }
 };
 
-function createModal(title) {
+function createModal(title, values, rowToEdit) {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.style.display = 'block';
@@ -60,14 +63,23 @@ function createModal(title) {
   inputName.className = 'mb-3';
   inputName.type = 'text';
   inputName.required = true;
+  if (values) {
+    inputName.value = values[0];
+  }
   const inputSurname = document.createElement('input');
   inputSurname.className = 'mb-3';
   inputSurname.type = 'text';
   inputSurname.required = true;
+  if (values) {
+    inputSurname.value = values[1];
+  }
   const inputEmail = document.createElement('input');
   inputEmail.className = 'mb-3';
   inputEmail.type = 'email';
   inputEmail.required = true;
+  if (values) {
+    inputEmail.value = values[2];
+  }
 
   const labelName = document.createElement('label');
   labelName.innerText = 'Name:';
@@ -120,7 +132,12 @@ function createModal(title) {
       }
     }
     inputValues.push(date);
-    rowCreator(inputValues);
+    if (title === 'Create') {
+      rowCreator(inputValues);
+    } else if (title === 'Edit') {
+      rowEditor(inputValues, rowToEdit);
+    }
+
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
@@ -134,12 +151,10 @@ function createModal(title) {
 function rowCreator(values) {
   const row = document.createElement('tr');
   row.className = 'row-selector';
+
   const checkbox = document.createElement('input');
   checkbox.className = 'mt-3 ml-3';
   checkbox.type = 'checkbox';
-
-  // const selected = document.createElement('td');
-  // selected.appendChild(checkbox);
 
   row.appendChild(checkbox);
   for (let i = 0; i < values.length; i++) {
@@ -148,4 +163,10 @@ function rowCreator(values) {
   }
   const tableBody = document.getElementById('body');
   tableBody.appendChild(row);
+}
+
+function rowEditor(values, rowToEdit) {
+  for (let index = 1; index < 4; index++) {
+    rowToEdit.children[index].innerHTML = values[index - 1];
+  }
 }
