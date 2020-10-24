@@ -114,7 +114,7 @@ function addNewRowModal(cellsArray, body) {
     if (index > 0 && element !== '') {
       const label = document.createElement('label');
       label.htmlFor = element;
-      label.innerHTML = element.toUpperCase() + ':';
+      label.innerHTML = element + ' :';
       label.className = 'mt-3';
       const input = document.createElement('input');
       input.id = element;
