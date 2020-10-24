@@ -16,12 +16,10 @@ const createModal = (windowCount) => {
     modal.style.opacity = '1';
     modal.style.backgroundColor = 'rgba(25,25,25,0.8)';
   }, 30);
-  if (windowCount > 1) {
-  } else {
-    const modalDialog = document.createElement('div');
-    modalDialog.className = 'modal-dialog';
-    modal.appendChild(modalDialog);
-  }
+
+  const modalDialog = document.createElement('div');
+  modalDialog.className = 'modal-dialog';
+  modal.appendChild(modalDialog);
 
   const modalContent = document.createElement('div');
   modalContent.className = 'modal-content';
