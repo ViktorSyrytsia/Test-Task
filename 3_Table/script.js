@@ -219,11 +219,14 @@ function editRow(e) {
   const target = e.target.parentNode;
   const row = target.parentNode;
   const rowCells = row.children;
-  for (const iterator of rowCells) {
-    if (iterator.innerText !== 'edit' && iterator.innerText !== 'delete') {
-      iterator.innerText = prompt(
-        `Put a new value for ${iterator.innerText}`,
-        iterator.innerText
+  for (let i = 1; i < rowCells.length; i++) {
+    if (
+      rowCells[i].innerText !== 'edit' &&
+      rowCells[i].innerText !== 'delete'
+    ) {
+      rowCells[i].innerText = prompt(
+        `Put a new value for ${rowCells[i].innerText}`,
+        rowCells[i].innerText
       );
     }
   }
