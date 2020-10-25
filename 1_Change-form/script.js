@@ -1,4 +1,4 @@
-document.forms.change_form.onsubmit = (e) => {
+document.forms.change_form.addEventListener('submit', (e) => {
   e.preventDefault();
   const sum = +document.getElementById('sum').value;
   const price = +document.getElementById('price').value;
@@ -17,13 +17,11 @@ document.forms.change_form.onsubmit = (e) => {
   }
   const changeOutput = document.createElement('span');
   changeOutput.className = 'font-weight-bolder';
-  changeOutput.innerHTML = `  ${
-    change.split('.')[0] <= 0 ? '' : change.split('.')[0] + ' dollars,'
-  } ${
-    change.split('.')[1] < 10
+  changeOutput.innerHTML = `  ${change.split('.')[0] <= 0 ? '' : change.split('.')[0] + ' dollars,'
+    } ${change.split('.')[1] < 10
       ? change.split('.')[1][1] + ' cents'
       : change.split('.')[1] + ' cents'
-  }`;
+    }`;
   changeHeader.appendChild(changeOutput);
 
   const nominalsHeader = document.getElementById('nominals');
@@ -42,7 +40,7 @@ document.forms.change_form.onsubmit = (e) => {
 
   document.getElementById('sum').value = 0;
   document.getElementById('price').value = 0;
-};
+})
 
 function nominals(cents) {
   let value = cents;
@@ -77,7 +75,6 @@ function nominals(cents) {
 }
 
 function nominalString(centsNominal, value) {
-  return `${
-    centsNominal[value] > 0 ? centsNominal[value] + 'x' + value + 'cent' : ''
-  } `;
+  return `${centsNominal[value] > 0 ? centsNominal[value] + 'x' + value + 'cent' : ''
+    } `;
 }

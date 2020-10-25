@@ -1,8 +1,8 @@
-document.getElementById('add').onclick = (e) => {
+document.getElementById('add').addEventListener('click', () => {
   createModal('Create');
-};
+})
 
-document.getElementById('edit').onclick = (e) => {
+document.getElementById('edit').addEventListener('click', () => {
   const rows = document.querySelectorAll('.row-selector');
   for (const row of rows) {
     if (row.children[0].checked === true) {
@@ -13,16 +13,16 @@ document.getElementById('edit').onclick = (e) => {
       createModal('Edit', values, row);
     }
   }
-};
+})
 
-document.getElementById('delete').onclick = (e) => {
+document.getElementById('delete').addEventListener('click', () => {
   const rows = document.querySelectorAll('.row-selector');
   for (const row of rows) {
     if (row.children[0].checked === true) {
       row.remove();
     }
   }
-};
+})
 
 function createModal(title, values, rowToEdit) {
   const modal = document.createElement('div');
@@ -46,14 +46,16 @@ function createModal(title, values, rowToEdit) {
   const modalHeader = document.createElement('div');
   const header = document.createElement('h5');
   const closeCrossButton = document.createElement('button');
+
   closeCrossButton.type = 'button';
   closeCrossButton.className = 'close';
   closeCrossButton.innerText = 'x';
-  closeCrossButton.onclick = () => {
+  closeCrossButton.addEventListener('click', () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  })
+
   modalHeader.className = 'modal-header';
   header.className = 'modal-title';
   header.innerHTML = title;
@@ -132,16 +134,16 @@ function createModal(title, values, rowToEdit) {
   closeButton.className = 'btn btn-danger mt-2';
   closeButton.innerText = 'Close';
   closeButton.type = 'button';
-  closeButton.onclick = () => {
+  closeButton.addEventListener('click', () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  })
 
   form.appendChild(okButton);
   form.appendChild(closeButton);
 
-  form.onsubmit = (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     const inputValues = [];
     const date = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
@@ -160,7 +162,7 @@ function createModal(title, values, rowToEdit) {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  })
 
   modalContent.appendChild(modalFooter);
 

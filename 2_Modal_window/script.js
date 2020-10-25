@@ -1,7 +1,7 @@
-document.getElementById('create_modal').onclick = () => {
+document.getElementById('create_modal').addEventListener('click', () => {
   createModal();
-};
-document.getElementById('create_multi').onclick = () => {
+})
+document.getElementById('create_multi').addEventListener('click', () => {
   for (let index = 0; index < 3; index++) {
     createModal({
       top: `${Math.random() * 500}px`,
@@ -10,7 +10,7 @@ document.getElementById('create_multi').onclick = () => {
       bottom: `${Math.random() * 500}px`,
     });
   }
-};
+})
 
 function createModal(position) {
   const modal = document.createElement('div');
@@ -46,14 +46,17 @@ function createModal(position) {
   const modalHeader = document.createElement('div');
   const header = document.createElement('h5');
   const closeCrossButton = document.createElement('button');
+
   closeCrossButton.type = 'button';
   closeCrossButton.className = 'close';
   closeCrossButton.innerText = 'x';
-  closeCrossButton.onclick = () => {
+
+  closeCrossButton.addEventListener('click', () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  });
+
   modalHeader.className = 'modal-header';
   header.className = 'modal-title';
   header.innerHTML = 'Modal title';
@@ -78,31 +81,34 @@ function createModal(position) {
   okButton.className = 'btn btn-success';
   okButton.innerText = 'OK';
   okButton.type = 'button';
-  okButton.onclick = () => {
+  okButton.addEventListener('click', () => {
     alert('Hello world!');
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  });
+
   closeButton.className = 'btn btn-danger';
   closeButton.innerText = 'Close';
   closeButton.type = 'button';
-  closeButton.onclick = () => {
+  closeButton.addEventListener('click', () => {
     modal.style.backgroundColor = 'rgba(25,25,25,0.0)';
     modal.style.opacity = '0';
     setTimeout(() => modal.remove(), 300);
-  };
+  });
+
   closeAllButton.className = 'btn btn-warning';
   closeAllButton.innerText = 'Close all';
   closeAllButton.type = 'button';
-  closeAllButton.onclick = () => {
+  closeAllButton.addEventListener('click', () => {
     const allModal = document.querySelectorAll('.modal');
     for (const iterator of allModal) {
       iterator.style.backgroundColor = 'rgba(25,25,25,0.0)';
       iterator.style.opacity = '0';
       setTimeout(() => iterator.remove(), 300);
     }
-  };
+  });
+
   modalFooter.appendChild(okButton);
   modalFooter.appendChild(closeButton);
   modalFooter.appendChild(closeAllButton);
