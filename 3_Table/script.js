@@ -70,6 +70,9 @@ function createModal(title, values, rowToEdit) {
 
   const inputName = document.createElement('input');
   inputName.className = 'mb-3';
+  inputName.id = 'name';
+  inputName.minLength = 2;
+  inputName.maxLength = 20
   inputName.type = 'text';
   inputName.required = true;
   if (values) {
@@ -77,6 +80,9 @@ function createModal(title, values, rowToEdit) {
   }
   const inputSurname = document.createElement('input');
   inputSurname.className = 'mb-3';
+  inputSurname.id = 'surname';
+  inputSurname.minLength = 2;
+  inputSurname.maxLength = 20
   inputSurname.type = 'text';
   inputSurname.required = true;
   if (values) {
@@ -84,7 +90,11 @@ function createModal(title, values, rowToEdit) {
   }
   const inputEmail = document.createElement('input');
   inputEmail.className = 'mb-3';
-  inputEmail.type = 'email';
+  inputEmail.id = 'email';
+  inputSurname.minLength = 5;
+  inputSurname.maxLength = 30
+  inputEmail.type = 'text';
+  inputEmail.pattern = "[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
   inputEmail.required = true;
   if (values) {
     inputEmail.value = values[2];
@@ -110,7 +120,7 @@ function createModal(title, values, rowToEdit) {
   modalContent.appendChild(modalBody);
 
   const modalFooter = document.createElement('div');
-  const okButton = document.createElement('button');
+  const okButton = document.createElement('input');
   const closeButton = document.createElement('button');
 
   modalFooter.className = 'modal-footer';

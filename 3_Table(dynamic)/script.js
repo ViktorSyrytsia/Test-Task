@@ -124,7 +124,7 @@ function addNewRowModal(cellsArray, body) {
       if (input.id === 'email') {
         input.type = 'email';
         input.name = 'email';
-        input.pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$';
+        input.pattern = "[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}";
       }
       if (input.id === 'date') {
         const date = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
